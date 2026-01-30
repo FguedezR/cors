@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const PORT = 3000;
 
 // peticiones desde cualquier sitio con cors
 app.use(cors());
@@ -29,6 +30,6 @@ app.get("/characters/:name", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Escuchando en el puerto http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Escuchando en el puerto http://localhost:${PORT}}`);
 });
