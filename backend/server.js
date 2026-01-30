@@ -31,5 +31,5 @@ app.get("/characters/:name", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Escuchando en el puerto http://localhost:${PORT}}`);
+  console.log(`Escuchando en el puerto http://localhost:${PORT}`);
 });
