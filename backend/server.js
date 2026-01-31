@@ -1,9 +1,10 @@
 const express = require("express");
+const axios = require("axios");
 const app = express();
 const cors = require("cors");
 const PORT = 3000;
 
-// peticiones desde cualquier sitio con cors
+// peticiones con cors
 app.use(cors());
 
 app.get("/characters", async (req, res) => {
@@ -20,16 +21,19 @@ app.get("/characters", async (req, res) => {
 app.get("/characters/:name", async (req, res) => {
   const { name } = req.params;
   try {
-    const response = await axios.get(
-      `https://rickandmortyapi.com/api/character/?name=${name}`,
-    );
-    // aqui devolvemos el primer resulto encontrado
-    res.json(response.data.results[0]);
+    const url = `https://rickandmortyapi.com/api/character/?name=${name}`;
+    const response = await axios.get(url);
+    // vemos si hay resultados antes de enviar el primero
+    if (response.data.results && response.data.results.length > 0) {
+      res.json(response.data.results[0]);
+    } else {
+      res.status(404).json({ message: "No se encontraron personajes" })
+    }
   } catch (error) {
     res.status(404).json({ message: "Personaje no encontrado" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Escuchando en el puerto http://localhost:${PORT}`);
+  console.log(`Servidor en el puerto http://localhost:${PORT}`);
 });
